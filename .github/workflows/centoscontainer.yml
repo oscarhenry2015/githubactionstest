@@ -1,0 +1,31 @@
+name: Test Playbook on CentOS 7
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:stable
+        options: --privileged   # Needed to run Docker within Docker
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Pull CentOS 7 Docker image
+      run: docker pull centos:7
+
+    - name: Run playbook in CentOS 7 container
+      run: |
+        docker run --rm -v $(pwd):/ansible -w /ansible centos:7 ansible-playbook example.yml
+
+    # Add additional steps as needed, such as running tests or reporting results.
