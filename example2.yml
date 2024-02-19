@@ -7,6 +7,18 @@
         name: nginx
         state: present
         
+    - name: Get Nginx version
+      ansible.builtin.shell: nginx -v
+      register: nginx_version_output
+
+    - name: Extract Nginx version
+      ansible.builtin.set_fact:
+        nginx_version: "{{ nginx_version_output.stdout | regex_replace('^nginx version: nginx/([0-9.]+).*', '\\1') }}"
+
+    - name: Display Nginx version
+      ansible.builtin.debug:
+        msg: "Nginx version on CentOS container is {{ nginx_version }}"
+        
     - name: Get current time
       ansible.builtin.command: date
       register: current_time
