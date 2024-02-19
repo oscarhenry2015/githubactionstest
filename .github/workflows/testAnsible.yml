@@ -25,7 +25,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y ansible ansible-lint yamllint
-      else:
+      else
         run: |
           sudo yum install -y epel-release
           sudo yum install -y ansible ansible-lint yamllint
