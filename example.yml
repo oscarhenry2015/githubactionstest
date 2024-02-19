@@ -1,6 +1,6 @@
 ---
 - name: Example Playbook
-  hosts: all
+  hosts: localhost
   tasks:
     - name: Ensure Nginx is installed
       apt:
