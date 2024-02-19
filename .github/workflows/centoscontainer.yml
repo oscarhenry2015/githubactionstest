@@ -21,11 +21,18 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v2
 
-    - name: Pull CentOS 7 Docker image
-      run: docker pull centos:7
+    - name: Build Docker image for testing
+      run: |
+        docker build -t ansible-test - <<EOF
+        FROM centos:7
+        RUN yum -y install epel-release && \
+            yum -y install ansible python3-pip && \
+            yum clean all && \
+            pip3 install --no-cache-dir docker
+        EOF
 
     - name: Run playbook in CentOS 7 container
       run: |
-        docker run --rm -v $(pwd):/ansible -w /ansible centos:7 ansible-playbook example.yml
+        docker run --rm -v $(pwd):/ansible -w /ansible ansible-test ansible-playbook example.yml
 
     # Add additional steps as needed, such as running tests or reporting results.
