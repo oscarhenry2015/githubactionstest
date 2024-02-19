@@ -6,8 +6,12 @@
       yum:
         name: nginx
         state: present
+        
+    - name: Get current time
+      ansible.builtin.command: date
+      register: current_time
 
-    - name: Ensure Nginx service is running
-      service:
-        name: nginx
-        state: started
+    - name: Display current time
+      ansible.builtin.debug:
+        msg: "Current time on CentOS container is {{ current_time.stdout }}"
+
