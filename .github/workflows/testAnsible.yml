@@ -25,7 +25,7 @@ jobs:
       run: yamllint example.yml
 
     - name: Run ansible-lint
-      run: ansible-lint /usr/bin/example.yml
+      run: ansible-lint example.yml
 
     - name: Syntax check Ansible playbook
       run: ansible-playbook --syntax-check example.yml
