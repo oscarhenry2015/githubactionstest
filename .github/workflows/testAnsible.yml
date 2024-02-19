@@ -10,27 +10,16 @@ on:
 
 jobs:
   test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, centos-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install Ansible and dependencies (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
+    - name: Install Ansible and dependencies
       run: |
         sudo apt update
         sudo apt install -y ansible ansible-lint yamllint
-
-    - name: Install Ansible and dependencies (CentOS)
-      if: matrix.os == 'centos-latest'
-      run: |
-        sudo yum install -y epel-release
-        sudo yum install -y ansible ansible-lint yamllint
 
     - name: Run yamllint
       run: yamllint example.yml
