@@ -20,15 +20,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install Ansible and dependencies
+    - name: Install Ansible and dependencies (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt update
         sudo apt install -y ansible ansible-lint yamllint
-      else
-        run: |
-          sudo yum install -y epel-release
-          sudo yum install -y ansible ansible-lint yamllint
+
+    - name: Install Ansible and dependencies (CentOS)
+      if: matrix.os == 'centos-latest'
+      run: |
+        sudo yum install -y epel-release
+        sudo yum install -y ansible ansible-lint yamllint
 
     - name: Run yamllint
       run: yamllint example.yml
