@@ -10,22 +10,31 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, centos-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Install Ansible and dependencies
+      if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt update
         sudo apt install -y ansible ansible-lint yamllint
+      else:
+        run: |
+          sudo yum install -y epel-release
+          sudo yum install -y ansible ansible-lint yamllint
 
     - name: Run yamllint
       run: yamllint example.yml
 
     - name: Run ansible-lint
-      run: ansible-lint example.yml
+      run: ansible-lint /usr/bin/example.yml
 
     - name: Syntax check Ansible playbook
       run: ansible-playbook --syntax-check example.yml
