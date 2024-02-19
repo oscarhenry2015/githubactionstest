@@ -33,6 +33,6 @@ jobs:
 
     - name: Run playbook in CentOS 7 container
       run: |
-        docker run --rm -v $(pwd):/ansible -w /ansible ansible-test ansible-playbook example.yml
+        docker run --rm -v $(pwd):/ansible -w /ansible ansible-test ansible-playbook example2.yml
 
     # Add additional steps as needed, such as running tests or reporting results.
