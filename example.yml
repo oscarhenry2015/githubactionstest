@@ -1,28 +1,13 @@
-name: Ansible Test
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Install Ansible and dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y ansible ansible-lint yamllint
-
-    - name: Run ansible-lint
-      run: ansible-lint example.yml
-
-    - name: Run yamllint
-      run: yamllint example.yml
+---
+- name: Example Playbook
+  hosts: all
+  tasks:
+    - name: Ensure Nginx is installed
+      apt:
+        name: nginx
+        state: present
+        
+    - name: Ensure Nginx service is running
+      service:
+        name: nginx
+        state: started
